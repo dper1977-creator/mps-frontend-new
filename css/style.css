@@ -1,8 +1,15 @@
 /* Hero Background */
 .hero-bg {
+    /* Jika gambar di folder yang sama dengan HTML */
     background-image: url("sky_green.jpg");
+
+    /* Jika gambar di folder images */
+    /* background-image: url("./images/sky_green.jpg"); */
+
     background-position: center;
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* Modal Styles */
