@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Statistik - Yayasan Muda Peduli Saudara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00AEEF",
+                        "background-light": "#ffffff",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100">
+<!-- Navbar -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <img alt="Yayasan Logo" class="h-12" src="mps.png"/>
+            <span class="text-xl font-bold text-primary">Yayasan Muda Peduli Saudara</span>
+        </div>
+        <div class="hidden md:flex space-x-6">
+            <a href="index.html" class="text-gray-700 hover:text-primary font-medium">Beranda</a>
+            <a href="donasi.html" class="text-gray-700 hover:text-primary font-medium">Donasi</a>
+            <a href="relawan.html" class="text-gray-700 hover:text-primary font-medium">Relawan</a>
+            <a href="statistik.html" class="text-primary font-medium">Statistik</a>
+        </div>
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white py-2 px-4 shadow-lg">
+        <a href="index.html" class="block py-2 text-gray-700 hover:text-primary">Beranda</a>
+        <a href="donasi.html" class="block py-2 text-gray-700 hover:text-primary">Donasi</a>
+        <a href="relawan.html" class="block py-2 text-gray-700 hover:text-primary">Relawan</a>
+        <a href="statistik.html" class="block py-2 text-primary">Statistik</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Statistik Yayasan</h1>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500">Total Donasi</p>
+                    <p class="text-2xl font-bold" id="total-donasi">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500">Total Relawan</p>
+                    <p class="text-2xl font-bold" id="total-relawan">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500">Rata-rata Donasi</p>
+                    <p class="text-2xl font-bold" id="avg-donasi">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-yellow-500 text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500">Donatur Terbanyak</p>
+                    <p class="text-2xl font-bold" id="top-donatur">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Donasi by Type Chart -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Donasi berdasarkan Jenis</h2>
+            <canvas id="donasi-by-type-chart" height="300"></canvas>
+        </div>
+
+        <!-- Relawan by Team Chart -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Relawan berdasarkan Tim</h2>
+            <canvas id="relawan-by-team-chart" height="300"></canvas>
+        </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Top Donors Table -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Top Donatur</h2>
+            <div class="overflow-x-auto">
+                <table id="top-donors-table" class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Nama</th>
+                        <th class="py-2 px-4 border-b">Total Donasi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Donasi Stats Table -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Statistik Donasi</h2>
+            <div class="overflow-x-auto">
+                <table id="donasi-stats-table" class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Jenis Donasi</th>
+                        <th class="py-2 px-4 border-b">Jumlah</th>
+                        <th class="py-2 px-4 border-b">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2023 Yayasan Muda Peduli Saudara. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/statistik.js"></script>
+<script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+</body>
+</html>

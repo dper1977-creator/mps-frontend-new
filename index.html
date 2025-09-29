@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Yayasan Muda Peduli Saudara</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00AEEF",
+            "background-light": "#ffffff",
+            "background-dark": "#121212",
+          },
+          fontFamily: {
+            display: ["Poppins", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100">
+<!-- Navbar -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <img alt="Yayasan Logo" class="h-12" src="mps.png"/>
+      <span class="text-xl font-bold text-primary">Yayasan Muda Peduli Saudara</span>
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="index.html" class="text-gray-700 hover:text-primary font-medium">Beranda</a>
+      <a href="donasi.html" class="text-gray-700 hover:text-primary font-medium">Donasi</a>
+      <a href="relawan.html" class="text-gray-700 hover:text-primary font-medium">Relawan</a>
+      <a href="statistik.html" class="text-gray-700 hover:text-primary font-medium">Statistik</a>
+    </div>
+    <div class="md:hidden">
+      <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white py-2 px-4 shadow-lg">
+    <a href="index.html" class="block py-2 text-gray-700 hover:text-primary">Beranda</a>
+    <a href="donasi.html" class="block py-2 text-gray-700 hover:text-primary">Donasi</a>
+    <a href="relawan.html" class="block py-2 text-gray-700 hover:text-primary">Relawan</a>
+    <a href="statistik.html" class="block py-2 text-gray-700 hover:text-primary">Statistik</a>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-bg min-h-screen flex flex-col text-white">
+  <div class="flex-grow flex flex-col justify-center items-center text-center px-4">
+    <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg text-gray-800">Bersama... Kita Ciptakan Senyum Saudara</h1>
+    <p class="text-lg md:text-xl max-w-3xl drop-shadow-md text-black mb-8">
+      Yayasan Muda Peduli Saudara adalah gerakan sosial yang berdedikasi untuk membantu sesama melalui pendidikan dan sosial
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="donasi.html" class="bg-primary hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300">
+        <i class="fas fa-hand-holding-heart mr-2"></i> Donasi Sekarang
+      </a>
+      <a href="relawan.html" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300">
+        <i class="fas fa-users mr-2"></i> Menjadi Relawan
+      </a>
+      <a href="statistik.html" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300">
+        <i class="fas fa-chart-bar mr-2"></i> Lihat Statistik
+      </a>
+    </div>
+  </div>
+
+  <div class="p-6 bg-black bg-opacity-30">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+      <div class="flex items-center space-x-4 mb-4 md:mb-0">
+        <img alt="BSI Logo" class="h-12" src="logo%20bsi.png"/>
+        <div>
+          <p class="font-semibold text-white">Yayasan Peduli Saudara</p>
+          <p class="text-xl font-bold text-white">73 101 80 418</p>
+        </div>
+      </div>
+      <div class="flex space-x-4">
+        <a href="#" class="text-white hover:text-primary"><i class="fab fa-facebook text-2xl"></i></a>
+        <a href="#" class="text-white hover:text-primary"><i class="fab fa-twitter text-2xl"></i></a>
+        <a href="#" class="text-white hover:text-primary"><i class="fab fa-instagram text-2xl"></i></a>
+        <a href="#" class="text-white hover:text-primary"><i class="fab fa-youtube text-2xl"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">Tentang Kami</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">
+        Yayasan Muda Peduli Saudara adalah organisasi nirlaba yang berkomitmen untuk membantu masyarakat yang membutuhkan melalui berbagai program sosial dan pendidikan.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow-md text-center">
+        <div class="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-graduation-cap text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Pendidikan</h3>
+        <p class="text-gray-600">Mendukung pendidikan anak-anak kurang mampu melalui beasiswa dan fasilitas belajar.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow-md text-center">
+        <div class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-hands-helping text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Sosial</h3>
+        <p class="text-gray-600">Memberikan bantuan sosial kepada masyarakat yang membutuhkan dalam berbagai bentuk.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow-md text-center">
+        <div class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-heart text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Kesehatan</h3>
+        <p class="text-gray-600">Menyediakan layanan kesehatan dasar dan edukasi kesehatan untuk masyarakat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-xl font-bold mb-4">Yayasan Muda Peduli Saudara</h3>
+        <p class="text-gray-400">Jl. Contoh No. 123, Jakarta Selatan</p>
+        <p class="text-gray-400">Email: info@yayasanpeduli.com</p>
+        <p class="text-gray-400">Telepon: (021) 1234-5678</p>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-4">Link Cepat</h3>
+        <ul class="space-y-2">
+          <li><a href="index.html" class="text-gray-400 hover:text-white">Beranda</a></li>
+          <li><a href="donasi.html" class="text-gray-400 hover:text-white">Donasi</a></li>
+          <li><a href="relawan.html" class="text-gray-400 hover:text-white">Relawan</a></li>
+          <li><a href="statistik.html" class="text-gray-400 hover:text-white">Statistik</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+        <p class="text-gray-400 mb-4">Dapatkan update terbaru dari kami</p>
+        <form class="flex">
+          <input type="email" placeholder="Email Anda" class="px-4 py-2 w-full rounded-l text-gray-800">
+          <button type="submit" class="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-r">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+      <p class="text-gray-400">&copy; 2023 Yayasan Muda Peduli Saudara. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  document.getElementById('mobile-menu-button').addEventListener('click', function() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+</body>
+</html>

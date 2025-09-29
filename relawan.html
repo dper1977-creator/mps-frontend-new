@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Manajemen Relawan - Yayasan Muda Peduli Saudara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00AEEF",
+                        "background-light": "#ffffff",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100">
+<!-- Navbar -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <img alt="Yayasan Logo" class="h-12" src="mps.png"/>
+            <span class="text-xl font-bold text-primary">Yayasan Muda Peduli Saudara</span>
+        </div>
+        <div class="hidden md:flex space-x-6">
+            <a href="index.html" class="text-gray-700 hover:text-primary font-medium">Beranda</a>
+            <a href="donasi.html" class="text-gray-700 hover:text-primary font-medium">Donasi</a>
+            <a href="relawan.html" class="text-primary font-medium">Relawan</a>
+            <a href="statistik.html" class="text-gray-700 hover:text-primary font-medium">Statistik</a>
+        </div>
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white py-2 px-4 shadow-lg">
+        <a href="index.html" class="block py-2 text-gray-700 hover:text-primary">Beranda</a>
+        <a href="donasi.html" class="block py-2 text-gray-700 hover:text-primary">Donasi</a>
+        <a href="relawan.html" class="block py-2 text-primary">Relawan</a>
+        <a href="statistik.html" class="block py-2 text-gray-700 hover:text-primary">Statistik</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Manajemen Relawan</h1>
+        <div class="flex space-x-2">
+            <button id="add-relawan-btn" class="bg-primary hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center">
+                <i class="fas fa-plus mr-2"></i> Tambah Relawan
+            </button>
+            <button id="team-relawan-btn" class="bg-secondary hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex items-center">
+                <i class="fas fa-users-cog mr-2"></i> Per Tim
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Daftar Relawan</h2>
+
+        <div class="overflow-x-auto">
+            <table id="relawan-table" class="min-w-full bg-white border border-gray-200">
+                <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">ID</th>
+                    <th class="py-2 px-4 border-b">Nama Relawan</th>
+                    <th class="py-2 px-4 border-b">No ID</th>
+                    <th class="py-2 px-4 border-b">No HP</th>
+                    <th class="py-2 px-4 border-b">Alamat</th>
+                    <th class="py-2 px-4 border-b">Keterangan</th>
+                    <th class="py-2 px-4 border-b">Aksi</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- Modal untuk Form Relawan -->
+<div id="relawan-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="relawan-modal-title">Tambah Relawan</h3>
+            <span class="close">&times;</span>
+        </div>
+        <form id="relawan-form">
+            <input type="hidden" id="relawan-id">
+            <div class="form-group">
+                <label for="no_id">No ID</label>
+                <input type="text" id="no_id" required>
+            </div>
+            <div class="form-group">
+                <label for="nama_relawan">Nama Relawan</label>
+                <input type="text" id="nama_relawan" required>
+            </div>
+            <div class="form-group">
+                <label for="no_hp_relawan">No HP</label>
+                <input type="text" id="no_hp_relawan">
+            </div>
+            <div class="form-group">
+                <label for="alamat_relawan">Alamat</label>
+                <input type="text" id="alamat_relawan">
+            </div>
+            <div class="form-group">
+                <label for="keterangan">Keterangan</label>
+                <input type="text" id="keterangan">
+            </div>
+            <button type="submit" class="btn primary">Simpan</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal untuk Relawan per Tim -->
+<div id="team-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Relawan per Tim</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="team-container">
+            <table id="team-table">
+                <thead>
+                <tr>
+                    <th>Tim</th>
+                    <th>Jumlah Relawan</th>
+                    <th>Daftar Relawan</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2023 Yayasan Muda Peduli Saudara. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/relawan.js"></script>
+<script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+</body>
+</html>
