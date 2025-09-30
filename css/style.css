@@ -1,11 +1,21 @@
+
+.nav-logo {
+    height: 6rem; /* Sama dengan h-24 di Tailwind */
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .nav-logo {
+        height: 4rem; /* Ukuran lebih kecil di mobile */
+    }
+}
+
 /* Hero Background */
 .hero-bg {
     /* Jika gambar di folder yang sama dengan HTML */
     background-image: url("/sky_green.jpg");
-
-    /* Jika gambar di folder images */
-    /* background-image: url("./images/sky_green.jpg"); */
-    background-size: auto;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
