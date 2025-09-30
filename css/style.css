@@ -1,12 +1,11 @@
 /* Hero Background */
 .hero-bg {
     /* Jika gambar di folder yang sama dengan HTML */
-    background-image: url("sky_green.jpg");
+    background-image: url("/sky_green.jpg");
 
     /* Jika gambar di folder images */
     /* background-image: url("./images/sky_green.jpg"); */
-
-    background-position: center;
+    background-size: auto;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -42,7 +41,7 @@
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #020202;
 }
 
 .close {

@@ -4,17 +4,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     let relawanTeams = [];
     let topDonors = [];
 
+    // Fungsi untuk menampilkan notifikasi
+    function showNotification(message, type = 'info') {
+        // Buat elemen notifikasi
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 ${
+            type === 'error' ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'
+        }`;
+        notification.textContent = message;
+
+        // Tambahkan ke DOM
+        document.body.appendChild(notification);
+
+        // Hapus setelah 3 detik
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    // Fungsi untuk format mata uang
+    function formatCurrency(amount) {
+        if (isNaN(amount)) return 'Rp 0';
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(amount);
+    }
+
     // Ambil data statistik
     async function fetchStats() {
         try {
+            console.log('Fetching statistics data...');
+
             // Ambil data donasi
-            donasiStats = await DonasiAPI.getStats();
+            console.log('Fetching donation stats...');
+            const donasiResponse = await DonasiAPI.getStats();
+            donasiStats = Array.isArray(donasiResponse) ? donasiResponse : [];
+            console.log('Donation stats:', donasiStats);
 
             // Ambil data relawan per tim
-            relawanTeams = await RelawanAPI.getByTeam();
+            console.log('Fetching volunteer teams...');
+            const relawanResponse = await RelawanAPI.getByTeam();
+            relawanTeams = Array.isArray(relawanResponse) ? relawanResponse : [];
+            console.log('Volunteer teams:', relawanTeams);
 
             // Ambil data top donatur
-            topDonors = await DonasiAPI.getTopDonors(10);
+            console.log('Fetching top donors...');
+            const donorsResponse = await DonasiAPI.getTopDonors(10);
+            topDonors = Array.isArray(donorsResponse) ? donorsResponse : [];
+            console.log('Top donors:', topDonors);
 
             // Update tampilan
             updateSummaryCards();
@@ -22,9 +62,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderDonasiStatsTable();
             createDonasiByTypeChart();
             createRelawanByTeamChart();
+
+            showNotification('Data statistik berhasil dimuat', 'success');
         } catch (error) {
             console.error('Error fetching stats:', error);
-            showNotification('Gagal mengambil data statistik', 'error');
+            showNotification(`Gagal mengambil data statistik: ${error.message}`, 'error');
         }
     }
 
@@ -34,16 +76,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         let totalDonasi = 0;
         let totalDonatur = 0;
 
-        donasiStats.forEach(stat => {
-            totalDonasi += stat.total_nominal;
-            totalDonatur += stat.jumlah_donasi;
-        });
+        if (donasiStats.length > 0) {
+            donasiStats.forEach(stat => {
+                totalDonasi += parseFloat(stat.total_nominal) || 0;
+                totalDonatur += parseInt(stat.jumlah_donasi) || 0;
+            });
+        }
 
         // Hitung total relawan
         let totalRelawan = 0;
-        relawanTeams.forEach(team => {
-            totalRelawan += team.jumlah_relawan;
-        });
+        if (relawanTeams.length > 0) {
+            relawanTeams.forEach(team => {
+                totalRelawan += parseInt(team.jumlah_relawan) || 0;
+            });
+        }
 
         // Hitung rata-rata donasi
         const avgDonasi = totalDonatur > 0 ? totalDonasi / totalDonatur : 0;
@@ -60,11 +106,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tbody = document.querySelector('#top-donors-table tbody');
         tbody.innerHTML = '';
 
+        if (topDonors.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="2" class="py-2 px-4 border-b text-center">Tidak ada data</td></tr>';
+            return;
+        }
+
         topDonors.forEach(donor => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="py-2 px-4 border-b">${donor.nama}</td>
-                <td class="py-2 px-4 border-b">${formatCurrency(donor.total)}</td>
+                <td class="py-2 px-4 border-b">${donor.nama || '-'}</td>
+                <td class="py-2 px-4 border-b">${formatCurrency(parseFloat(donor.total) || 0)}</td>
             `;
             tbody.appendChild(row);
         });
@@ -75,12 +126,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tbody = document.querySelector('#donasi-stats-table tbody');
         tbody.innerHTML = '';
 
+        if (donasiStats.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" class="py-2 px-4 border-b text-center">Tidak ada data</td></tr>';
+            return;
+        }
+
         donasiStats.forEach(stat => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="py-2 px-4 border-b">${stat.nama_jenis}</td>
-                <td class="py-2 px-4 border-b">${stat.jumlah_donasi}</td>
-                <td class="py-2 px-4 border-b">${formatCurrency(stat.total_nominal)}</td>
+                <td class="py-2 px-4 border-b">${stat.nama_jenis || '-'}</td>
+                <td class="py-2 px-4 border-b">${stat.jumlah_donasi || 0}</td>
+                <td class="py-2 px-4 border-b">${formatCurrency(parseFloat(stat.total_nominal) || 0)}</td>
             `;
             tbody.appendChild(row);
         });
@@ -90,10 +146,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     function createDonasiByTypeChart() {
         const ctx = document.getElementById('donasi-by-type-chart').getContext('2d');
 
-        const labels = donasiStats.map(stat => stat.nama_jenis);
-        const data = donasiStats.map(stat => stat.total_nominal);
+        // Hapus chart yang sudah ada jika ada
+        if (window.donasiByTypeChart) {
+            window.donasiByTypeChart.destroy();
+        }
 
-        new Chart(ctx, {
+        const labels = donasiStats.map(stat => stat.nama_jenis || 'Tidak diketahui');
+        const data = donasiStats.map(stat => parseFloat(stat.total_nominal) || 0);
+
+        window.donasiByTypeChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -135,10 +196,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     function createRelawanByTeamChart() {
         const ctx = document.getElementById('relawan-by-team-chart').getContext('2d');
 
-        const labels = relawanTeams.map(team => team.tim);
-        const data = relawanTeams.map(team => team.jumlah_relawan);
+        // Hapus chart yang sudah ada jika ada
+        if (window.relawanByTeamChart) {
+            window.relawanByTeamChart.destroy();
+        }
 
-        new Chart(ctx, {
+        const labels = relawanTeams.map(team => team.tim || 'Tidak diketahui');
+        const data = relawanTeams.map(team => parseInt(team.jumlah_relawan) || 0);
+
+        window.relawanByTeamChart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: labels,
@@ -173,27 +239,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         });
-    }
-
-    // Format currency
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-        }).format(amount);
-    }
-
-    // Fungsi notifikasi
-    function showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
     }
 
     // Inisialisasi

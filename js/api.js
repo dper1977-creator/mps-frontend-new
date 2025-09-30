@@ -13,11 +13,18 @@ async function apiRequest(endpoint, options = {}) {
     const config = { ...defaultOptions, ...options };
 
     try {
+        console.log(`Making request to: ${url}`); // Tambahkan logging
         const response = await fetch(url, config);
+
         if (!response.ok) {
+            const errorData = await response.text(); // Ambil detail error
+            console.error(`HTTP error! status: ${response.status}, message: ${errorData}`);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+
+        const data = await response.json();
+        console.log('Response data:', data); // Tambahkan logging
+        return data;
     } catch (error) {
         console.error('API request failed:', error);
         throw error;
@@ -41,7 +48,7 @@ const DonasiAPI = {
     }),
     getStats: () => apiRequest('/donasi/stats'),
     getTopDonors: (limit = 5) => apiRequest(`/donasi/top?limit=${limit}`),
-    search: (name) => apiRequest(`/donasi/search?name=${name}`)
+    search: (name) => apiRequest(`/donasi/search?name=${encodeURIComponent(name)}`) // Tambahkan encodeURI
 };
 
 // API untuk Relawan
