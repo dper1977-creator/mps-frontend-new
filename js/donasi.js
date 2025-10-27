@@ -62,10 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render tabel donasi
     function renderDonasiTable(data) {
         donasiTableBody.innerHTML = '';
-        data.forEach(donasi => {
+        data.forEach((donasi,index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="py-2 px-4 border-b">${donasi.no}</td>
+                <td class="py-2 px-4 border-b">${index + 1}</td>
                 <td class="py-2 px-4 border-b">${donasi.nama}</td>
                 <td class="py-2 px-4 border-b">${donasi.alamat || '-'}</td>
                 <td class="py-2 px-4 border-b">${donasi.no_hp || '-'}</td>
